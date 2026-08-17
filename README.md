@@ -2,7 +2,7 @@
 
 Coursework and applied modeling projects completed for **DDS-8555: Predictive Analytics**, part of the **Data Science Ph.D. program at National University**.
 
-This repository is an evolving academic portfolio that documents the development of predictive-modeling skills through reproducible Python analyses. DDS-8555 is the fourth of 24 courses in the program and is being completed during the first year of study, well before the dissertation phase.
+This repository is an evolving academic portfolio that documents the development of predictive-modeling skills through reproducible Python analyses. DDS-8555 is the fourth of 20 courses in the program and is being completed during the first year of study, well before the dissertation phase.
 
 ## Current focus
 
