@@ -2,103 +2,115 @@
 
 Coursework and applied modeling projects completed for **DDS-8555: Predictive Analytics**, part of the **Data Science Ph.D. program at National University**.
 
-This repository is an evolving academic portfolio that documents the development of predictive-modeling skills through reproducible Python analyses. DDS-8555 is the fourth of 20 courses in the program and is being completed during the first year of study, well before the dissertation phase.
+This repository is an evolving academic portfolio of reproducible Python analyses. DDS-8555 is the fourth of 24 courses in the program and is being completed during the first year of study, well before the dissertation phase. The projects trace a progression from nonlinear regression through classification and ensemble learning to dimensionality reduction and clustering. Throughout that progression, the emphasis remains on careful validation, explicit assumption checks, and interpretation—not merely on fitting increasingly complex models.
 
-## Current focus
+## Analytical progression
 
-The repository currently emphasizes nonlinear regression and model evaluation. Its analyses compare linear and flexible functional forms, use cross-validation to estimate out-of-sample performance, examine model assumptions, and distinguish statistical significance from practical predictive value.
+### Week 4 — Nonlinear regression
 
-Current topics include:
+#### Automobile fuel economy
 
-- Exploratory data analysis and data-quality assessment
-- Polynomial regression
-- Cubic regression splines
-- Multivariable additive models
-- Ridge regularization
-- Cross-validation and held-out validation
-- Regression diagnostics and assumption checks
-- Feature importance and partial-dependence analysis
-- Kaggle submission development
+[Applied Question 8](PerezDDDS8555-4-AppliedQuestion8.ipynb) investigates nonlinear relationships in the Auto data. Polynomial regression and cubic regression splines are compared with shuffled 10-fold cross-validation, while partial F-tests assess evidence of departure from linearity.
 
-## Projects
+Horsepower, weight, and displacement show especially strong nonlinear relationships with miles per gallon. In the recorded results, an additive spline model reduces cross-validated RMSE by approximately 13.5% relative to an additive linear model. The analysis illustrates that added flexibility is most useful when it captures a repeatable structure in held-out data.
 
-### Nonlinear modeling of automobile fuel economy
+#### Kaggle abalone regression
 
-[`PerezDDDS8555-4-AppliedQuestion8.ipynb`](PerezDDDS8555-4-AppliedQuestion8.ipynb) addresses Applied Question 8 from Chapter 7 of *An Introduction to Statistical Learning with Applications in Python*.
+[The Week 4 Kaggle notebook](PerezDDDS8555-4-Kaggle.ipynb) develops quadratic ridge-regression and additive cubic-spline pipelines for Kaggle's [Regression with an Abalone Dataset](https://www.kaggle.com/competitions/playground-series-s4e4) competition. Model selection uses cross-validation and a separate validation set, with RMSLE as the principal competition-aligned metric.
 
-Using the `Auto` dataset, the analysis:
+The cubic-spline model produces the better held-out RMSLE in the recorded run. Residual diagnostics, permutation importance, and partial-dependence analysis extend the comparison beyond a leaderboard score by examining where the fitted relationships are credible and how individual predictors contribute.
 
-- Investigates nonlinear relationships between vehicle characteristics and miles per gallon (`mpg`)
-- Compares polynomial models of degrees 1–5 and cubic regression splines with 3–7 knots
-- Uses shuffled 10-fold cross-validation for model selection
-- Applies partial F-tests to assess departures from linearity
-- Compares multivariable additive linear and spline models
+### Week 5 — Classification and honest validation
 
-The fitted relationships provide especially strong evidence of nonlinearity for horsepower, weight, and displacement. In the recorded notebook results, the additive spline model reduces cross-validated RMSE by approximately 13.5% relative to the additive linear model.
+#### Weekly market-direction classification
 
-### Kaggle: Regression with an Abalone Dataset
+[Applied Question 13](PerezDDDS8555-5-AppliedQuestion13.ipynb) compares logistic regression, linear and quadratic discriminant analysis, K-nearest neighbors, and Gaussian naïve Bayes on the Weekly stock-market data.
 
-[`PerezDDDS8555-4-Kaggle.ipynb`](PerezDDDS8555-4-Kaggle.ipynb) develops two nonlinear regression pipelines for the Kaggle [Regression with an Abalone Dataset](https://www.kaggle.com/competitions/playground-series-s4e4) competition.
+The notebook deliberately separates exploratory results from a stricter time-respecting evaluation. Although an exploratory specification appears more accurate, rolling validation selects a KNN model using Lag1; on the untouched 2009–2010 test period, that model reaches 48.08% accuracy and 44.41% balanced accuracy. The modest result is analytically important: once temporal ordering and model selection are handled carefully, the apparent predictive signal does not generalize reliably.
 
-The notebook:
+#### Kaggle obesity-risk classification
 
-- Audits and explores the competition data
-- Predicts abalone ring counts using a log-transformed response
-- Compares quadratic polynomial ridge regression with additive cubic regression splines
-- Uses five-fold cross-validation and a separate validation set
-- Evaluates RMSLE, RMSE, MAE, and R²
-- Investigates functional form, heteroscedasticity, residual normality, independence, and multicollinearity
-- Uses permutation importance and partial-dependence plots for interpretation
-- Generates two Kaggle-ready submission files
+[The Week 5 Kaggle notebook](PerezDDDS8555-5-Kaggle.ipynb) addresses multiclass obesity-risk prediction with multinomial logistic regression, regularized LDA, Gaussian naïve Bayes, and an RBF support-vector machine. Preprocessing is contained within model pipelines to prevent information from the validation folds from leaking into training.
 
-The cubic regression spline model is selected by held-out RMSLE in the current notebook run. Kaggle submission evidence is included in [`kaggle_submission_evidence.png`](kaggle_submission_evidence.png).
+Among the four candidates, the RBF SVM provides the strongest local generalization in the recorded analysis. The comparison shows the value of nonlinear decision boundaries when demographic, behavioral, and physical measurements interact in ways that simpler class boundaries cannot fully represent.
 
-## Repository structure
+### Week 6 — Tree-based ensemble learning
 
-```text
-Predictive-Analytics/
-├── PerezDDDS8555-4-AppliedQuestion8.ipynb
-├── PerezDDDS8555-4-Kaggle.ipynb
-├── kaggle_submission_evidence.png
-├── outputs/
-│   ├── submission_polynomial.csv
-│   └── submission_splines.csv
-└── upload/
-    ├── sample_submission.csv
-    ├── test.csv
-    └── train.csv
-```
+[Applied Question 12](PerezDDDS8555-6-AppliedQuestion12.ipynb) compares logistic regression with bagging, random forests, gradient boosting, and Bayesian additive regression trees on the Wisconsin Diagnostic Breast Cancer data. All methods use the same stratified training/test split, and performance is assessed with accuracy, balanced accuracy, ROC AUC, and confusion matrices.
 
-## Running the notebooks
+Every fitted method performs well, but complexity does not guarantee improvement. Logistic regression, bagging, and gradient boosting each attain 98.83% test accuracy; logistic regression has the highest balanced accuracy and ROC AUC in this split. Random forest and BART follow closely at 98.25% accuracy. The practical conclusion is that flexible ensembles can be highly competitive while still offering no material advantage over a well-specified simpler benchmark.
 
-### Prerequisites
+### Week 7 — Unsupervised learning
 
-- Python 3.10 or later
-- JupyterLab, Jupyter Notebook, or another notebook-compatible environment
+#### The K-means objective
 
-Install the principal dependencies with:
+[Conceptual Question 1](PerezDDDS8555-7-ConceptualQuestion1.ipynb) provides a computational verification of the K-means objective and its monotonic non-increase during alternating assignment and centroid updates. In the reproducible example, the objective falls from 1,239.88 to 216.69—an 82.52% reduction—and converges in three iterations.
 
-```bash
-python -m pip install jupyter numpy pandas matplotlib seaborn scipy scikit-learn statsmodels ISLP
-```
+#### Hierarchical clustering of U.S. states
 
-Then clone the repository and start JupyterLab:
+[Applied Question 9](PerezDDDS8555-7-AppliedQuestion9.ipynb) implements complete-linkage hierarchical clustering with Euclidean distance on the USArrests data. Three-cluster solutions are compared before and after standardization.
 
-```bash
-git clone https://github.com/perezrd5/Predictive-Analytics.git
-cd Predictive-Analytics
-jupyter lab
-```
+Without scaling, Assault dominates the distance calculation because it has the largest numerical spread. Standardization changes 19 of the 50 aligned state assignments and yields an adjusted Rand index of 0.368 between the two partitions. The result demonstrates that scaling is not a cosmetic preprocessing choice—it determines the relative influence assigned to each variable.
 
-Open a notebook and run its cells from top to bottom. Random seeds are fixed where applicable to improve reproducibility. The Abalone notebook expects the Kaggle CSV files in the repository root or in the included `upload/` directory.
+#### PCA and clustering of wine chemistry
 
-## Tools and methods
+[The wine PCA and clustering notebook](PerezDDDS8555-7-Wine-PCA-Clustering.ipynb) analyzes 13 chemical measurements for 178 wines. Standardized principal component analysis retains five components that explain 80.16% of total variance, reducing correlated measurements while preserving most of the dataset's information.
 
-The work currently uses Python, Jupyter, pandas, NumPy, Matplotlib, Seaborn, SciPy, scikit-learn, statsmodels, and the ISLP package.
+Multiple diagnostics support a three-cluster K-means solution: the silhouette coefficient is 0.369, the Calinski–Harabasz index is 109.233, the Davies–Bouldin index is 1.093, and repeated fits show strong stability with a mean adjusted Rand index near 0.957. Ward hierarchical clustering provides a closely related three-group structure—the two methods achieve an adjusted Rand index of 0.827 and 93.8% aligned agreement. Hopkins statistics and sensitivity analyses examine clustering tendency, stability, the PCA retention threshold, and the influence of outliers. Taken together, the findings support a meaningful three-group structure while acknowledging that cluster boundaries are not perfectly separated.
+
+## Repository contents
+
+Most completed assignments are provided as both executable notebooks and rendered PDFs:
+
+    Predictive-Analytics/
+    ├── PerezDDDS8555-4-AppliedQuestion8.ipynb
+    ├── PerezDDDS8555-4-Kaggle.ipynb
+    ├── PerezDDDS8555-5-AppliedQuestion13.ipynb
+    ├── PerezDDDS8555-5-AppliedQuestion13.pdf
+    ├── PerezDDDS8555-5-Kaggle.ipynb
+    ├── PerezDDDS8555-5-Kaggle.pdf
+    ├── PerezDDDS8555-6-AppliedQuestion12.ipynb
+    ├── PerezDDDS8555-6-AppliedQuestion12.pdf
+    ├── PerezDDDS8555-7-AppliedQuestion9.ipynb
+    ├── PerezDDDS8555-7-AppliedQuestion9.pdf
+    ├── PerezDDDS8555-7-ConceptualQuestion1.ipynb
+    ├── PerezDDDS8555-7-ConceptualQuestion1.pdf
+    ├── PerezDDDS8555-7-Wine-PCA-Clustering.ipynb
+    ├── PerezDDDS8555-7-Wine-PCA-Clustering.pdf
+    ├── PerezDDDS8555-7.pdf
+    ├── PerezDDDS8555-ObesityRisk-Kaggle.ipynb
+    ├── PerezDDDS8555-ObesityRisk-Kaggle.pdf
+    ├── kaggle_submission_evidence.png
+    ├── outputs/
+    └── upload/
+
+The upload directory contains competition data used by the Kaggle analyses, while outputs contains generated submission files.
+
+## Reproducibility
+
+The notebooks use fixed random seeds where applicable and document their data-loading, preprocessing, modeling, and evaluation decisions. To run them locally:
+
+    git clone https://github.com/perezrd5/Predictive-Analytics.git
+    cd Predictive-Analytics
+    python -m pip install jupyter numpy pandas matplotlib seaborn scipy scikit-learn statsmodels ISLP pymc-bart
+    jupyter lab
+
+Open a notebook and run its cells from top to bottom. Some notebooks are intentionally self-contained; the Kaggle notebooks expect their competition CSV files in the repository root or the included upload directory. Because scientific Python packages sometimes contain compiled extensions, a clean virtual environment or Conda environment with mutually compatible NumPy and Matplotlib versions is recommended.
+
+## Methods represented
+
+The repository currently includes:
+
+- Polynomial regression, regression splines, ridge regularization, and additive models
+- Logistic regression, discriminant analysis, KNN, naïve Bayes, and support-vector machines
+- Bagging, random forests, gradient boosting, and BART
+- Principal component analysis, K-means, and hierarchical clustering
+- Cross-validation, time-respecting validation, held-out testing, and stability analysis
+- Residual diagnostics, assumption checks, feature importance, and partial dependence
 
 ## Academic context
 
-These materials reflect coursework, experimentation, and learning in progress. Interpretations may be refined as the course advances and additional projects are added. Results are presented for educational purposes and should not be treated as causal conclusions or production-ready predictions without further validation.
+These materials reflect coursework, experimentation, and learning in progress. The analyses emphasize prediction and pattern discovery; their results should not be interpreted as causal conclusions or production-ready clinical, financial, or policy tools without additional validation.
 
 If you are completing similar coursework, use this repository as a reference for concepts and reproducible practices—not as a substitute for producing and explaining your own work.
 
