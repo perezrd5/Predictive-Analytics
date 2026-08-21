@@ -104,7 +104,6 @@ jupyter lab
 Open a notebook and run its cells from top to bottom. Some notebooks are self-contained or obtain data from installed packages. The Week 4 Kaggle notebook expects the abalone competition CSV files in the repository root or `upload/`. Other Kaggle analyses may require their corresponding competition data to be downloaded separately if those files are not present in the repository.
 
 Because scientific Python packages sometimes contain compiled extensions, a clean virtual environment or Conda environment with mutually compatible NumPy and Matplotlib versions is recommended.
-
 ## Methods represented
 
 The repository currently includes:
